@@ -3,6 +3,7 @@ package com.notepoint4ugmail.kotlinmessanger.loginAndRegistration.registration
 import android.app.Activity
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
@@ -71,12 +72,14 @@ class RegistrationActivity : AppCompatActivity() {
         startActivityForResult(intent,101)
     }
 
+    var selectedPhotoUri:Uri? = null
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode==101 && resultCode==Activity.RESULT_OK && data!=null){
-            val uri = data.data
+            selectedPhotoUri = data.data
 
-            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver,uri)
+            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
             val bitmapDrawable = BitmapDrawable(bitmap)
             binding.selectPhotoRegistration.setBackgroundDrawable(bitmapDrawable)
         }

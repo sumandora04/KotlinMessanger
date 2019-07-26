@@ -24,6 +24,8 @@ class RegistrationViewModel : ViewModel() {
                     _regSuccess.value = true
                     _regMessage.value = it.result.toString()
                     Timber.d("Registration success with Uid: ${it.result?.user?.uid}")
+                    //On successful registration upload the image here
+                    uploadProfileImageToFirebaseStorage()
                 }
             }
             .addOnFailureListener {
@@ -34,6 +36,10 @@ class RegistrationViewModel : ViewModel() {
 
     }
 
+
+    fun uploadProfileImageToFirebaseStorage(){
+
+    }
 
 
 }
