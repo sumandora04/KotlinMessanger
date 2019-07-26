@@ -20,6 +20,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    dataBinding{
+        enabled = true
+    }
 }
 
 dependencies {
@@ -45,4 +49,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.0.0'
     //Firebase auth:
     implementation 'com.google.firebase:firebase-auth:17.0.0'
+
+    //Lifecycle extension:
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
 }
