@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="userData"
+                  type="com.notepoint4ugmail.kotlinmessanger.loginAndRegistration.registration.User"/>
+
+    </data>
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginBottom="2dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_small">
+            <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    app:civ_border_width="2dp"
+                    android:background="@drawable/round_image"
+                    android:id="@+id/user_profile_image_single_cell"
+                    tools:src="@tools:sample/avatars[0]"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="@dimen/margin_large"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:fontFamily="@font/roboto"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textStyle="normal"
+                    tools:text="abc@gmail.com"
+                    android:gravity="center|start"
+                    android:padding="@dimen/margin_small"
+                    android:id="@+id/user_email_single_cell"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.notepoint4ugmail.kotlinmessanger.databinding.FragmentNewMessageBinding
 
@@ -28,9 +29,12 @@ class NewMessageFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        activity!!.title = "New Message"
+        val adapter = NewMessageAdapter()
+        viewModel.userList.observe(this, Observer {
+            adapter.submitList(it)
+        })
 
-
+        binding.userRecyclerView.adapter = adapter
         return binding.root
     }
 
