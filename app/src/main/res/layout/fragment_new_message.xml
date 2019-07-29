@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable name="chatListViewModel"
-                  type="com.notepoint4ugmail.kotlinmessanger.messageList.ChatListViewModel"/>
+        <variable name="newMessageViewModel"
+                  type="com.notepoint4ugmail.kotlinmessanger.newMessage.NewMessageViewModel"/>
     </data>
     <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".messageList.ChatListFragment">
+            tools:context=".newMessage.NewMessageFragment">
 
         <!-- TODO: Update blank fragment layout -->
         <TextView

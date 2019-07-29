@@ -5,5 +5,17 @@
             app:startDestination="@id/chatListFragment">
     <fragment android:id="@+id/chatListFragment"
               android:name="com.notepoint4ugmail.kotlinmessanger.messageList.ChatListFragment"
-              android:label="fragment_chat_list" tools:layout="@layout/fragment_chat_list"/>
+              android:label="Messenger" tools:layout="@layout/fragment_chat_list">
+        <action android:id="@+id/action_chatListFragment_to_loginActivity" app:destination="@id/loginActivity"
+                app:popUpTo="@+id/loginActivity" app:popUpToInclusive="true"/>
+        <action android:id="@+id/action_chatListFragment_to_newMessageFragment"
+                app:destination="@id/newMessageFragment" app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"/>
+    </fragment>
+    <activity android:id="@+id/loginActivity"
+              android:name="com.notepoint4ugmail.kotlinmessanger.loginAndRegistration.login.LoginActivity"
+              android:label="LoginActivity"/>
+    <fragment android:id="@+id/newMessageFragment"
+              android:name="com.notepoint4ugmail.kotlinmessanger.newMessage.NewMessageFragment"
+              android:label="Select User"/>
 </navigation>

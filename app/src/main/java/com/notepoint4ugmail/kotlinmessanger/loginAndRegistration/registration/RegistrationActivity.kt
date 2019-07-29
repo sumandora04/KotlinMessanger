@@ -2,16 +2,15 @@ package com.notepoint4ugmail.kotlinmessanger.loginAndRegistration.registration
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.firebase.auth.FirebaseAuth
 import com.notepoint4ugmail.kotlinmessanger.MainActivity
 import com.notepoint4ugmail.kotlinmessanger.R
 import com.notepoint4ugmail.kotlinmessanger.databinding.ActivityRegistrationBinding
@@ -21,8 +20,6 @@ import kotlinx.android.synthetic.main.activity_registration.*
 class RegistrationActivity : AppCompatActivity() {
     private lateinit var binding:ActivityRegistrationBinding
     private lateinit var regViewModel:RegistrationViewModel
-
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,9 +47,9 @@ class RegistrationActivity : AppCompatActivity() {
             val password = user_password_edit_login.text.toString()
             val userName = user_name_edit_reg.text.toString()
 
-            if (email.isEmpty() || password.length < 6) return@setOnClickListener
+            if (userName.isEmpty() || email.isEmpty() || password.length < 6) return@setOnClickListener
 
-            regViewModel.registerUser(email,password)
+            regViewModel.registerUser(userName,email,password)
         }
 
         binding.loginText.setOnClickListener {
@@ -61,9 +58,15 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
 
-        binding.selectPhotoRegistration.setOnClickListener {
+        binding.selectPhotoRegistrationButton.setOnClickListener {
             selectPhoto()
         }
+
+        regViewModel.imageUri.observe(this, Observer {
+            it?.let {
+                setImageToImageView(it)
+            }
+        })
     }
 
     private fun selectPhoto(){
@@ -72,16 +75,23 @@ class RegistrationActivity : AppCompatActivity() {
         startActivityForResult(intent,101)
     }
 
-    var selectedPhotoUri:Uri? = null
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode==101 && resultCode==Activity.RESULT_OK && data!=null){
-            selectedPhotoUri = data.data
+            val selectedPhotoUri = data.data
 
-            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
-            val bitmapDrawable = BitmapDrawable(bitmap)
-            binding.selectPhotoRegistration.setBackgroundDrawable(bitmapDrawable)
+            selectedPhotoUri?.let {
+                setImageToImageView(it)
+            }
+            regViewModel.imageUri.value = selectedPhotoUri
         }
+    }
+
+    private fun setImageToImageView(uri:Uri){
+        binding.selectPhotoRegistrationImage.visibility = View.VISIBLE
+        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+        binding.selectPhotoRegistrationImage.setImageBitmap(bitmap)
+        binding.selectPhotoRegistrationButton.visibility = View.INVISIBLE
     }
 }

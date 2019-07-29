@@ -21,7 +21,7 @@ android {
         }
     }
 
-    dataBinding{
+    dataBinding {
         enabled = true
     }
 }
@@ -45,11 +45,20 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.0.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.0.0'
 
-    //Firebase:
-    implementation 'com.google.firebase:firebase-core:17.0.0'
-    //Firebase auth:
-    implementation 'com.google.firebase:firebase-auth:17.0.0'
-
     //Lifecycle extension:
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+
+    //Circle imageView:
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
+    //Firebase:
+    implementation "com.google.firebase:firebase-core:$firebase_version"
+    //Firebase auth:
+    implementation "com.google.firebase:firebase-auth:$firebase_version"
+    //Firebase storage:
+    implementation "com.google.firebase:firebase-storage:$firebase_version"
+    //Firebase database:
+    implementation "com.google.firebase:firebase-database:$firebase_version"
+
+
 }

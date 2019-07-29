@@ -20,12 +20,27 @@
                     android:layout_height="150dp"
                     android:text="@string/select_photo"
                     android:background="@drawable/round_image"
-                    android:id="@+id/select_photo_registration"
+                    android:id="@+id/select_photo_registration_button"
                     android:layout_marginTop="64dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     style="@style/button_style"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:visibility="invisible"
+                    android:text="@string/select_photo"
+                    app:civ_border_width="2dp"
+                    android:background="@drawable/round_image"
+                    android:id="@+id/select_photo_registration_image"
+                    android:layout_marginTop="64dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    style="@style/button_style"/>
+
             <EditText
                     android:layout_width="0dp"
                     android:layout_height="@dimen/layout_height"
@@ -39,8 +54,8 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     android:hint="@string/user_name"
                     style="@style/medium_text"
-                    android:layout_marginTop="48dp"
-                    app:layout_constraintTop_toBottomOf="@+id/select_photo_registration"/>
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/select_photo_registration_button"/>
             <EditText
                     android:layout_width="0dp"
                     android:layout_height="@dimen/layout_height"
