@@ -7,15 +7,20 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.notepoint4ugmail.kotlinmessanger.databinding.SingleUserLayoutBinding
-import com.notepoint4ugmail.kotlinmessanger.loginAndRegistration.registration.User
+import com.notepoint4ugmail.kotlinmessanger.model.User
 
-class NewMessageAdapter:ListAdapter<User,NewMessageAdapter.UserListHolder>(UserListDiffUtil()) {
+class NewMessageAdapter(val userClickListener: NewUserClickListener):ListAdapter<User,NewMessageAdapter.UserListHolder>(UserListDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserListHolder {
         return UserListHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: UserListHolder, position: Int) {
         val userItem = getItem(position)
+
+        holder.itemView.setOnClickListener {
+            userClickListener.onClick(userItem)
+        }
+
         holder.bind(userItem)
     }
 
@@ -50,8 +55,12 @@ class NewMessageAdapter:ListAdapter<User,NewMessageAdapter.UserListHolder>(UserL
         }
 
         override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
-            return oldItem.uId == newItem.uId
+            return oldItem.uid == newItem.uid
         }
+    }
 
+
+    class NewUserClickListener(private val onCLickListener:(user: User)->Unit){
+        fun onClick(userItem: User) = onCLickListener(userItem)
     }
 }

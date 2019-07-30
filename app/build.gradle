@@ -24,6 +24,10 @@ android {
     dataBinding {
         enabled = true
     }
+
+    androidExtensions{
+        experimental = true
+    }
 }
 
 dependencies {
@@ -62,7 +66,12 @@ dependencies {
     implementation "com.google.firebase:firebase-storage:$firebase_version"
     //Firebase database:
     implementation "com.google.firebase:firebase-database:$firebase_version"
+    implementation 'com.firebaseui:firebase-ui-database:0.4.0'
+
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+
+    //Groupie
+    implementation 'com.xwray:groupie:2.3.0'
 
 
 }

@@ -11,4 +11,6 @@
     <string name="select_photo">Select Photo</string>
     <string name="new_message">New Message</string>
     <string name="sign_out">Sign out</string>
+    <string name="enter_message_hint">Enter message</string>
+    <string name="dummy_message">This is my message</string>
 </resources>

@@ -17,5 +17,13 @@
               android:label="LoginActivity"/>
     <fragment android:id="@+id/newMessageFragment"
               android:name="com.notepoint4ugmail.kotlinmessanger.newMessage.NewMessageFragment"
-              android:label="Select User"/>
+              android:label="Select User">
+        <action android:id="@+id/action_newMessageFragment_to_chatLogFragment" app:destination="@id/chatLogFragment"
+                app:popUpTo="@id/newMessageFragment" app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment android:id="@+id/chatLogFragment"
+              android:name="com.notepoint4ugmail.kotlinmessanger.chatLogs.ChatLogFragment"
+    >
+        <argument android:name="selectedUserDetail" app:argType="com.notepoint4ugmail.kotlinmessanger.model.User"/>
+    </fragment>
 </navigation>

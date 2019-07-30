@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.notepoint4ugmail.kotlinmessanger.databinding.FragmentNewMessageBinding
 
 /**
@@ -29,7 +30,10 @@ class NewMessageFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        val adapter = NewMessageAdapter()
+        val adapter = NewMessageAdapter(NewMessageAdapter.NewUserClickListener{
+//            Toast.makeText(context,it.userName,Toast.LENGTH_SHORT).show()
+            this.findNavController().navigate(NewMessageFragmentDirections.actionNewMessageFragmentToChatLogFragment(it))
+        })
         viewModel.userList.observe(this, Observer {
             adapter.submitList(it)
         })

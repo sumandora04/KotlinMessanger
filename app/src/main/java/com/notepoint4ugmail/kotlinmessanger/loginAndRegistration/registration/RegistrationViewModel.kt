@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.notepoint4ugmail.kotlinmessanger.model.User
 import timber.log.Timber
 import java.util.*
 
@@ -70,7 +71,7 @@ class RegistrationViewModel : ViewModel() {
         val uId = firebaseAuth.uid
         uId?.let {
             val databaseReference = FirebaseDatabase.getInstance().getReference("/users/$uId")
-            val user = User(uId,name,email,imageUrl)
+            val user = User(uId, name, email, imageUrl)
             databaseReference.setValue(user)
                 .addOnCompleteListener {
                     Timber.d("Saved to database")
