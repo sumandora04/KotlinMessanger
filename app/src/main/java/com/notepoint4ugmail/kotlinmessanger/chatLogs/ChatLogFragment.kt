@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.notepoint4ugmail.kotlinmessanger.R
 import com.notepoint4ugmail.kotlinmessanger.databinding.FragmentChatLogBinding
@@ -25,6 +26,10 @@ import kotlinx.android.synthetic.main.chat_to_row.view.*
 class ChatLogFragment : Fragment() {
     private lateinit var binding: FragmentChatLogBinding
     private lateinit var viewModel: ChatLogViewModel
+
+    companion object{
+        var imageUrlCurrentUser:String? = null
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +50,10 @@ class ChatLogFragment : Fragment() {
         binding.chatLogViewModel = viewModel
         binding.lifecycleOwner = this
 
+        viewModel.currentUser.observe(this, Observer {
+            imageUrlCurrentUser = it.profileImageUrl
+        })
+
         viewModel.sendMessageSuccess.observe(this, Observer {
             if (it) {
                 binding.newMessageEditText.text.clear()
@@ -54,10 +63,10 @@ class ChatLogFragment : Fragment() {
         val adapter = GroupAdapter<ViewHolder>()
         viewModel.messageList.observe(this, Observer {
             it?.let {
-                if (it.fromId==FirebaseAuth.getInstance().uid) {
-                    adapter.add(ChatFromItems(it.text))
+                if (it.toId==FirebaseAuth.getInstance().uid) {
+                    adapter.add(ChatFromItems(it.text, userDetail.profileImageUrl))
                 }else {
-                    adapter.add(ChatToItems(it.text))
+                    adapter.add(ChatToItems(it.text, imageUrlCurrentUser))
                 }
             }
         })
@@ -81,24 +90,33 @@ class ChatLogFragment : Fragment() {
 
 
     //Groupie for recyclerView adapter:
-    class ChatFromItems(val message: String) : Item<ViewHolder>() {
+    class ChatFromItems(val message: String, val imageUrl:String) : Item<ViewHolder>() {
         override fun getLayout(): Int {
             return R.layout.chat_from_row
         }
 
         override fun bind(viewHolder: ViewHolder, position: Int) {
             viewHolder.itemView.user_message_from.text = message
+
+            Glide.with(viewHolder.itemView.user_image_from)
+                .load(imageUrl)
+                .into( viewHolder.itemView.user_image_from)
+
         }
 
     }
 
-    class ChatToItems(val message: String) : Item<ViewHolder>() {
+    class ChatToItems(val message: String, val imageUrl:String?) : Item<ViewHolder>() {
         override fun getLayout(): Int {
             return R.layout.chat_to_row
         }
 
         override fun bind(viewHolder: ViewHolder, position: Int) {
             viewHolder.itemView.user_message_to.text = message
+
+            Glide.with(viewHolder.itemView.user_image_to)
+                .load(imageUrl)
+                .into( viewHolder.itemView.user_image_to)
         }
 
     }

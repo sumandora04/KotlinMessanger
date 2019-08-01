@@ -5,10 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.notepoint4ugmail.kotlinmessanger.model.ChatMessage
 import com.notepoint4ugmail.kotlinmessanger.model.User
 import timber.log.Timber
@@ -20,13 +17,18 @@ class ChatLogViewModel(val userItem: User, application: Application) : AndroidVi
         get() = _sendMessageSuccess
 
     private val _messageList = MutableLiveData<ChatMessage>()
-    val messageList:LiveData<ChatMessage>
-    get() = _messageList
+    val messageList: LiveData<ChatMessage>
+        get() = _messageList
+
+    private val _currentUser = MutableLiveData<User>()
+    val currentUser: LiveData<User>
+        get() = _currentUser
 
     init {
-       // Timber.d("SelectedUserDetail: $userItem")
+        // Timber.d("SelectedUserDetail: $userItem")
         listenForMessages()
         _sendMessageSuccess.value = false
+        fetchCurrentUserDetails()
     }
 
 
@@ -79,11 +81,29 @@ class ChatLogViewModel(val userItem: User, application: Application) : AndroidVi
             }
 
 
-
             override fun onChildRemoved(p0: DataSnapshot) {
 
             }
 
         })
+    }
+
+
+    fun fetchCurrentUserDetails() {
+        val uid = FirebaseAuth.getInstance().uid
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+
+            override fun onDataChange(p0: DataSnapshot) {
+                _currentUser.value = p0.getValue(User::class.java)
+
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        })
+
     }
 }
