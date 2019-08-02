@@ -11,6 +11,7 @@
         <action android:id="@+id/action_chatListFragment_to_newMessageFragment"
                 app:destination="@id/newMessageFragment" app:enterAnim="@anim/nav_default_enter_anim"
                 app:exitAnim="@anim/nav_default_exit_anim"/>
+        <action android:id="@+id/action_chatListFragment_to_chatLogFragment" app:destination="@id/chatLogFragment"/>
     </fragment>
     <activity android:id="@+id/loginActivity"
               android:name="com.notepoint4ugmail.kotlinmessanger.loginAndRegistration.login.LoginActivity"

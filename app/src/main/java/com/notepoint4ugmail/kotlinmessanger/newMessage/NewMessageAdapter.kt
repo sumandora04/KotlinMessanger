@@ -9,7 +9,8 @@ import com.bumptech.glide.Glide
 import com.notepoint4ugmail.kotlinmessanger.databinding.SingleUserLayoutBinding
 import com.notepoint4ugmail.kotlinmessanger.model.User
 
-class NewMessageAdapter(val userClickListener: NewUserClickListener):ListAdapter<User,NewMessageAdapter.UserListHolder>(UserListDiffUtil()) {
+class NewMessageAdapter(val userClickListener: NewUserClickListener) :
+    ListAdapter<User, NewMessageAdapter.UserListHolder>(UserListDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserListHolder {
         return UserListHolder.from(parent)
     }
@@ -25,8 +26,7 @@ class NewMessageAdapter(val userClickListener: NewUserClickListener):ListAdapter
     }
 
 
-
-    class UserListHolder(private val binding:SingleUserLayoutBinding):RecyclerView.ViewHolder(binding.root) {
+    class UserListHolder(private val binding: SingleUserLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(userItem: User?) {
             binding.userData = userItem
             binding.executePendingBindings()
@@ -39,7 +39,7 @@ class NewMessageAdapter(val userClickListener: NewUserClickListener):ListAdapter
 
         }
 
-        companion object{
+        companion object {
             fun from(parent: ViewGroup): UserListHolder {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = SingleUserLayoutBinding.inflate(inflater)
@@ -49,9 +49,9 @@ class NewMessageAdapter(val userClickListener: NewUserClickListener):ListAdapter
     }
 
 
-    class UserListDiffUtil:DiffUtil.ItemCallback<User>(){
+    class UserListDiffUtil : DiffUtil.ItemCallback<User>() {
         override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
-            return oldItem==newItem
+            return oldItem == newItem
         }
 
         override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
@@ -60,7 +60,7 @@ class NewMessageAdapter(val userClickListener: NewUserClickListener):ListAdapter
     }
 
 
-    class NewUserClickListener(private val onCLickListener:(user: User)->Unit){
+    class NewUserClickListener(private val onCLickListener: (user: User) -> Unit) {
         fun onClick(userItem: User) = onCLickListener(userItem)
     }
 }

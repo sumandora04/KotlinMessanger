@@ -41,7 +41,7 @@ class ChatLogFragment : Fragment() {
         val application = requireNotNull(activity!!).application
         val userDetail = ChatLogFragmentArgs.fromBundle(arguments!!).selectedUserDetail
 
-        // activity?.title = userDetail.userName
+        // activity?.title = chatPartnerDetail.userName
         this.findNavController().graph.label = userDetail.userName
 
         val modelFactory = ChatLogFactory(userDetail, application)
@@ -68,6 +68,8 @@ class ChatLogFragment : Fragment() {
                 }else {
                     adapter.add(ChatToItems(it.text, imageUrlCurrentUser))
                 }
+
+                binding.chatLogRecyclerView.scrollToPosition(adapter.itemCount-1)
             }
         })
 

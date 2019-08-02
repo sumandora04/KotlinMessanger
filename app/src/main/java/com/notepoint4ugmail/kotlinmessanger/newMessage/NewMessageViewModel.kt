@@ -3,6 +3,7 @@ package com.notepoint4ugmail.kotlinmessanger.newMessage
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.notepoint4ugmail.kotlinmessanger.model.User
 import timber.log.Timber
@@ -24,7 +25,9 @@ class NewMessageViewModel : ViewModel() {
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val user = p0.getValue(User::class.java)
-                userList.add(user)
+                if (user?.uid!= FirebaseAuth.getInstance().uid) {
+                    userList.add(user)
+                }
                 _userList.value = userList
             }
 

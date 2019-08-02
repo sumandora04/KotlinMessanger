@@ -33,16 +33,56 @@ class ChatLogViewModel(val userItem: User, application: Application) : AndroidVi
 
 
     fun performSendMessage(text: String) {
-        val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
-        val id = reference.key
+
         val fromId = FirebaseAuth.getInstance().uid
         val toId = userItem.uid
         val timeStamp = System.currentTimeMillis() / 1000
 
+        val fromReference = FirebaseDatabase.getInstance().getReference("/user_messages/$fromId/$toId").push()
+        val toReference = FirebaseDatabase.getInstance().getReference("/user_messages/$toId/$fromId").push()
+
+        val fromLatestMessageReference = FirebaseDatabase.getInstance().getReference("/latest_messages/$fromId/$toId")
+        val toLatestMessageReference = FirebaseDatabase.getInstance().getReference("/latest_messages/$toId/$fromId")
+
+        val id = fromReference.key
+
         if (id == null || fromId == null) return
 
         val chatMessage = ChatMessage(id, text, fromId, toId, timeStamp)
-        reference.setValue(chatMessage)
+        fromReference.setValue(chatMessage)
+            .addOnSuccessListener {
+                Timber.d("Saved to firebase db")
+                _sendMessageSuccess.value = true
+            }
+            .addOnFailureListener {
+                Timber.d("Failed to save: ${it.message}")
+                _sendMessageSuccess.value = false
+            }
+
+
+        toReference.setValue(chatMessage)
+            .addOnSuccessListener {
+                Timber.d("Saved to firebase db")
+                _sendMessageSuccess.value = true
+            }
+            .addOnFailureListener {
+                Timber.d("Failed to save: ${it.message}")
+                _sendMessageSuccess.value = false
+            }
+
+
+        fromLatestMessageReference.setValue(chatMessage)
+            .addOnSuccessListener {
+                Timber.d("Saved to firebase db")
+                _sendMessageSuccess.value = true
+            }
+            .addOnFailureListener {
+                Timber.d("Failed to save: ${it.message}")
+                _sendMessageSuccess.value = false
+            }
+
+
+        toLatestMessageReference.setValue(chatMessage)
             .addOnSuccessListener {
                 Timber.d("Saved to firebase db")
                 _sendMessageSuccess.value = true
@@ -59,7 +99,9 @@ class ChatLogViewModel(val userItem: User, application: Application) : AndroidVi
 
 
     fun listenForMessages() {
-        val reference = FirebaseDatabase.getInstance().getReference("/messages")
+        val fromId = FirebaseAuth.getInstance().uid
+        val toId = userItem.uid
+        val reference = FirebaseDatabase.getInstance().getReference("/user_messages/$fromId/$toId")
 
         reference.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
@@ -100,7 +142,7 @@ class ChatLogViewModel(val userItem: User, application: Application) : AndroidVi
             }
 
             override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+               Timber.d("Unable to fetch user details: ${p0.message}")
             }
 
         })
